@@ -111,13 +111,3 @@ git push origin feature/awesome-feature
 This project is licensed under the **MIT License**.
 
 ---
-
-```
-
----
-
-Bhai ye **poora ek hi markdown block me hai**, tu sirf copy-paste karke `README.md` me daal de.  
-
-Agar chaahe to mai isme **React/Node.js badges aur live demo link placeholders** bhi daal ke aur professional bana doon.  
-Kya mai wo version bhi bana doon?
-```
