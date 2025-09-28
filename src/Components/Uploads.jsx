@@ -61,7 +61,7 @@ const Uploads = () => {
                     <>
                         <h2>Upload your financial data</h2>
                         <p>Drag and drop your CSV file here, or browse to upload<br />We support standard CSV formats.</p>
-                        <input type="file" id='file-upload' onChange={handleFile} />
+                        <input type="file" id='file-upload' accept='.csv' onChange={handleFile} />
                         <label htmlFor="file-upload">Browse Files</label>
                     </>
                     :
