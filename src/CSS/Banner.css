@@ -1,0 +1,48 @@
+.banner {
+  background-color: rgba(0, 0, 0, 0.2);
+  background-image: url(../Assets/Banner.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-blend-mode: darken;
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 45px;
+  border-radius: 10px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+.banner .left {
+  color: #fff;
+}
+.banner .left h1 {
+  font-size: 60px;
+}
+.banner .left .banner-button {
+  margin-top: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+.banner .left .banner-button button {
+  padding: 10px 15px;
+  gap: 10px;
+  background-color: hsla(0, 0%, 100%, 0.1);
+  backdrop-filter: blur(5px);
+  font-size: 20px;
+  border-radius: 30px;
+  color: #fff;
+}
+.banner .right .banner-img-container {
+  padding: 10px;
+  height: 350px;
+  width: 350px;
+  overflow: hidden;
+}
+.banner .right .banner-img-container img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+}

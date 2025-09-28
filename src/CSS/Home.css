@@ -1,0 +1,9 @@
+main {
+  padding: 20px 10px;
+}
+@media (min-width: 1122px) {
+  main {
+    width: 1122px;
+    margin: auto;
+  }
+}

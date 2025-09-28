@@ -1,0 +1,66 @@
+.news {
+  padding: 15px;
+  margin-top: 20px;
+  border: 1px dashed #93a2b7;
+  border-radius: 5px;
+}
+.news .sec-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.news .news-mode-btn-cont {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.news .news-mode-btn-cont button {
+  padding: 5px 8px;
+  border-radius: 20px;
+  border: 1px solid #93a2b7;
+  background-color: transparent;
+  cursor: pointer;
+}
+.news .news-mode-btn-cont button:focus {
+  background-color: #1173d4;
+  color: #fff;
+  border: 1px solid #1173d4;
+}
+.news .news-cont {
+  margin-top: 20px;
+}
+.news .news-cont > *:not(:last-child) {
+  margin-bottom: 20px;
+}
+.news .news-cont .new-card {
+  padding: 15px;
+  border: 1px solid #93a2b7;
+  border-radius: 5px;
+  transition: all 0.2s linear;
+}
+.news .news-cont .new-card:hover {
+  border-color: #13375e;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+.news .news-cont .new-card p {
+  margin-top: 10px;
+}
+.news .news-cont .new-card .news-bottom {
+  margin-top: 10px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+.news .news-cont .new-card .news-bottom .left {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 12px;
+}
+.news .news-cont .new-card .news-bottom .right {
+  display: flex;
+}
+.news .news-cont .new-card .news-bottom .right a {
+  display: flex;
+}

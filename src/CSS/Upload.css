@@ -1,0 +1,70 @@
+.upload {
+  padding: 40px 15px;
+  margin-top: 25px;
+  background-color: #f6f7f8;
+  border: 2px dashed #93a2b7;
+  border-radius: 5px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+.upload .upload-icon {
+  width: fit-content;
+  margin-inline: auto;
+  margin-bottom: 20px;
+}
+.upload p {
+  text-align: center;
+}
+.upload > *:not(:first-child) {
+  width: fit-content;
+  margin-inline: auto;
+  margin-bottom: 15px;
+}
+.upload input[type=file] {
+  display: none;
+}
+.upload label {
+  width: fit-content;
+  display: block;
+  padding: 15px 25px;
+  background-color: #1173d4;
+  color: #fff;
+  border-radius: 35px;
+  cursor: pointer;
+}
+.upload span.filename {
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+}
+.upload .btn-cont {
+  display: flex;
+  gap: 10px;
+}
+.upload .btn-cont button {
+  width: 100px;
+  padding: 10px;
+  background-color: #1173d4;
+  color: #fff;
+  border-radius: 35px;
+  cursor: pointer;
+  text-wrap: nowrap;
+}
+.upload .btn-cont button.cancel-btn {
+  background-color: tomato;
+}
+.upload .process {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.upload .process .process-img {
+  height: 75px;
+  width: 100px;
+  overflow: hidden;
+}
+.upload .process .process-img img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+}
