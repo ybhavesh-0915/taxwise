@@ -47,14 +47,413 @@
 }
 
 .ai {
-  display: block;
-  margin-top: 20px;
-  width: 100%;
-  background-color: dodgerblue;
-  padding: 8px;
-  border-radius: 5px;
-  text-align: center;
+  margin-top: 15px;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
-.ai:hover {
-  background-color: royalblue;
+.ai .chats .chat {
+  margin-bottom: 30px;
+}
+.ai .chats .chat .query-wrapper {
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: end;
+}
+.ai .chats .chat .query-wrapper .query {
+  padding: 12px;
+  max-width: 70%;
+  background-color: rgb(255, 215, 0);
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  border-radius: 15px 5px 15px 15px;
+  display: block;
+  direction: ltr;
+}
+.ai .chats .chat .query-wrapper img {
+  height: 50px;
+  width: 50px;
+}
+.ai .chats .chat .res-wrapper {
+  display: flex;
+  justify-content: end;
+}
+.ai .chats .chat .res-wrapper img {
+  margin-top: 25px;
+  height: 40px;
+  width: 40px;
+}
+.ai .chats .chat .res-wrapper .res {
+  padding: 10px;
+}
+.ai .chats .chat .res-wrapper .res * code:not([class*=language-]) {
+  font-family: Consolas, monospace;
+  font-family: Consolas, monospace !important;
+  background-color: #efefef;
+  padding-inline: 8px;
+  border-radius: 20px;
+  word-wrap: break-word;
+  text-align: left;
+}
+.ai .chats .chat .res-wrapper .res h1 {
+  line-height: 35px;
+}
+.ai .chats .chat .res-wrapper .res h1,
+.ai .chats .chat .res-wrapper .res h2,
+.ai .chats .chat .res-wrapper .res h3,
+.ai .chats .chat .res-wrapper .res h4 {
+  margin-top: 25px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.ai .chats .chat .res-wrapper .res h5,
+.ai .chats .chat .res-wrapper .res h6 {
+  margin-block: 10px;
+  font-weight: 700;
+  line-height: 35px;
+}
+.ai .chats .chat .res-wrapper .res p {
+  margin-block: 10px;
+}
+.ai .chats .chat .res-wrapper .res .links {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background-color: #efefef;
+  padding-inline: 5px;
+  border-radius: 20px;
+}
+.ai .chats .chat .res-wrapper .res .links img {
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+  background-color: white;
+}
+.ai .chats .chat .res-wrapper .res .links a {
+  text-decoration: underline !important;
+  color: #93c5fd;
+}
+.ai .chats .chat .res-wrapper .res .links a:hover {
+  color: #60a5fa;
+}
+.ai .chats .chat .res-wrapper .res .links a:active {
+  color: #3b82f6;
+}
+.ai .chats .chat .res-wrapper .res .links a:visited {
+  color: #c084fc;
+}
+.ai .chats .chat .res-wrapper .res ol {
+  margin-block: 10px;
+  padding-inline-start: 18px;
+}
+.ai .chats .chat .res-wrapper .res ol li {
+  margin-bottom: 8px;
+}
+.ai .chats .chat .res-wrapper .res ol li:has(ol, ul) {
+  position: relative;
+}
+.ai .chats .chat .res-wrapper .res ol li:has(ol, ul):hover::after {
+  background-color: #3b82f6;
+}
+.ai .chats .chat .res-wrapper .res ol li:has(ol, ul)::after {
+  height: calc(100% - 20px);
+  width: 2px;
+  background-color: var(--tertiary);
+  border-radius: 5px;
+  position: absolute;
+  content: "";
+  top: 20px;
+  left: -14px;
+  z-index: -2;
+}
+.ai .chats .chat .res-wrapper .res ol li:has(ol, ul) ol,
+.ai .chats .chat .res-wrapper .res ol li:has(ol, ul) ul {
+  margin-top: 0px;
+  list-style: circle;
+}
+.ai .chats .chat .res-wrapper .res ol li:has(ol, ul) ol li,
+.ai .chats .chat .res-wrapper .res ol li:has(ol, ul) ul li {
+  position: relative;
+}
+.ai .chats .chat .res-wrapper .res ol li:has(ol, ul) ol li:has(ol, ul) li::after,
+.ai .chats .chat .res-wrapper .res ol li:has(ol, ul) ul li:has(ol, ul) li::after {
+  content: none !important;
+}
+.ai .chats .chat .res-wrapper .res ol li:has(ol, ul) ol li:hover::after,
+.ai .chats .chat .res-wrapper .res ol li:has(ol, ul) ul li:hover::after {
+  border-left-color: #3b82f6;
+  border-bottom-color: #3b82f6;
+}
+.ai .chats .chat .res-wrapper .res ol li:has(ol, ul) ol li::after,
+.ai .chats .chat .res-wrapper .res ol li:has(ol, ul) ul li::after {
+  content: "";
+  position: absolute;
+  top: -11.5px;
+  left: -32px !important;
+  z-index: -2;
+  height: 25px;
+  width: 15px;
+  border-left: 2px solid var(--tertiary);
+  border-bottom: 2px solid var(--tertiary);
+  border-radius: 0 0 0 12px;
+  background-color: transparent !important;
+}
+.ai .chats .chat .res-wrapper .res ul {
+  margin-block: 10px;
+  padding-inline-start: 18px;
+  list-style: disc;
+}
+.ai .chats .chat .res-wrapper .res ul li {
+  margin-bottom: 8px;
+}
+.ai .chats .chat .res-wrapper .res ul li:has(ol, ul) {
+  position: relative;
+}
+.ai .chats .chat .res-wrapper .res ul li:has(ol, ul):hover:after {
+  background-color: #3b82f6;
+}
+.ai .chats .chat .res-wrapper .res ul li:has(ol, ul)::after {
+  height: calc(100% - 12px);
+  width: 2px;
+  background-color: var(--tertiary);
+  border-radius: 0 0 5px 5px;
+  position: absolute;
+  content: "";
+  top: 12px;
+  left: -14px;
+  z-index: -2;
+}
+.ai .chats .chat .res-wrapper .res ul li:has(ol, ul) ol,
+.ai .chats .chat .res-wrapper .res ul li:has(ol, ul) ul {
+  margin-top: 0px;
+  list-style: circle;
+}
+.ai .chats .chat .res-wrapper .res ul li:has(ol, ul) ol li,
+.ai .chats .chat .res-wrapper .res ul li:has(ol, ul) ul li {
+  position: relative;
+}
+.ai .chats .chat .res-wrapper .res ul li:has(ol, ul) ol li:has(ol, ul) li::after,
+.ai .chats .chat .res-wrapper .res ul li:has(ol, ul) ul li:has(ol, ul) li::after {
+  content: none !important;
+}
+.ai .chats .chat .res-wrapper .res ul li:has(ol, ul) ol li:hover::after,
+.ai .chats .chat .res-wrapper .res ul li:has(ol, ul) ul li:hover::after {
+  border-left-color: #3b82f6;
+  border-bottom-color: #3b82f6;
+}
+.ai .chats .chat .res-wrapper .res ul li:has(ol, ul) ol li::after,
+.ai .chats .chat .res-wrapper .res ul li:has(ol, ul) ul li::after {
+  content: "";
+  position: absolute;
+  top: -11.5px;
+  left: -32px !important;
+  z-index: -2;
+  height: 25px;
+  width: 15px;
+  border-left: 2px solid var(--tertiary);
+  border-bottom: 2px solid var(--tertiary);
+  border-radius: 0 0 0 12px;
+  background-color: transparent !important;
+}
+.ai .chats .chat .res-wrapper .res input[type=checkbox]:checked,
+.ai .chats .chat .res-wrapper .res input[type=checkbox]:disabled:checked,
+.ai .chats .chat .res-wrapper .res input[type=radio]:checked {
+  accent-color: oklch(69.6% 0.17 162.48deg);
+}
+.ai .chats .chat .res-wrapper .res .table-wrapper {
+  margin-block: 10px;
+  background-color: #171717;
+  border: 2px solid #303030;
+  border-radius: 8px;
+  overflow: auto;
+  scrollbar-width: thin;
+  position: relative;
+}
+.ai .chats .chat .res-wrapper .res .table-wrapper table {
+  width: 100%;
+  overflow: auto;
+  border-collapse: collapse;
+}
+.ai .chats .chat .res-wrapper .res .table-wrapper table thead tr th {
+  padding: 10px;
+  border-bottom: 2px solid #303030;
+  text-align: center;
+  text-align: left;
+  min-width: 230px;
+}
+@media (min-width: 768px) {
+  .ai .chats .chat .res-wrapper .res .table-wrapper table thead tr th:first-child {
+    background-color: #171717;
+    position: sticky;
+    left: 0;
+  }
+}
+.ai .chats .chat .res-wrapper .res .table-wrapper table tbody tr td {
+  padding: 8px;
+  text-align: center;
+  text-align: left;
+  border-bottom: 2px solid #303030;
+  min-width: 230px;
+}
+@media (min-width: 768px) {
+  .ai .chats .chat .res-wrapper .res .table-wrapper table tbody tr td:first-child {
+    background-color: #171717;
+    position: sticky;
+    left: 0;
+  }
+}
+.ai .chats .chat .res-wrapper .res .table-wrapper table tbody tr:last-child td {
+  border-bottom: 0;
+}
+.ai .chats .chat .res-wrapper .res hr {
+  display: block;
+  width: 100%;
+  height: 3px;
+  background-color: #efefef;
+  border-radius: 5px;
+  margin-block: 25px !important;
+  border: 0;
+}
+.ai .chats .chat .res-wrapper .res .code-wrapper {
+  margin-bottom: 10px;
+  background-color: #efefef;
+  border-radius: 5px;
+  overflow: auto;
+  position: relative;
+}
+.ai .chats .chat .res-wrapper .res .code-wrapper .code-snippet {
+  background-color: #424439;
+  padding: 8px 1em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  font-family: "Google Sans Code", monospace !important;
+}
+.ai .chats .chat .res-wrapper .res .code-wrapper .code-snippet span {
+  font-size: 15px;
+}
+.ai .chats .chat .res-wrapper .res .code-wrapper pre:has([class*=language-]) {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+.ai .chats .chat .res-wrapper .res .code-wrapper pre:has(code) code {
+  background-color: #efefef !important;
+}
+.ai .chats .chat .res-wrapper .res .code-wrapper pre code {
+  display: block;
+  overflow-x: auto;
+  padding: 1em;
+  scrollbar-width: none;
+  font-family: Consolas, monospace !important;
+}
+.ai .chats .chat .res-wrapper .res .code-wrapper pre code span {
+  font-family: Consolas, monospace !important;
+}
+.ai .chats .chat .res-wrapper .res blockquote {
+  margin-block: 10px;
+  padding-left: 15px;
+  padding-block: 5px;
+  position: relative;
+}
+.ai .chats .chat .res-wrapper .res blockquote:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  border-radius: 5px;
+  background-color: #efefef;
+}
+.ai .chats .chat .res-wrapper .res blockquote * {
+  margin: 0 !important;
+}
+.ai .chats .chat .res-wrapper .res blockquote *:not(:last-child) {
+  margin-bottom: 10px !important;
+}
+.ai .chat-input {
+  border: 1px dashed #93a2b7;
+  border-radius: 20px;
+  overflow: hidden;
+  padding: 10px;
+}
+.ai .chat-input textarea {
+  display: block;
+  margin-bottom: 10px;
+  padding: 7px;
+  font-size: 16px;
+  width: 100%;
+  border: 0;
+  outline: none;
+  resize: none;
+  field-sizing: content;
+  max-height: 200px;
+  scrollbar-width: thin;
+}
+.ai .chat-input .btn-area {
+  display: flex;
+  justify-content: space-between;
+}
+.ai .chat-input .btn-area .speech-reco {
+  display: flex;
+  gap: 5px;
+  border: 1px dashed #93a2b7;
+  border-radius: 30px;
+  padding: 2px;
+}
+.ai .chat-input .btn-area .speech-reco button.mic {
+  height: 48px;
+  width: 48px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.ai .chat-input .btn-area .speech-reco button.mic:disabled {
+  cursor: not-allowed;
+}
+.ai .chat-input .btn-area .speech-reco button.mic.active {
+  background-color: tomato !important;
+  position: relative;
+  overflow: visible;
+  z-index: 1;
+}
+.ai .chat-input .btn-area .speech-reco button.mic.active:after {
+  position: absolute;
+  content: "";
+  background-color: rgba(255, 99, 71, 0.5);
+  border-radius: 50%;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+  animation: wobble 2.5s linear infinite;
+}
+.ai .chat-input .btn-area .speech-reco button.mic.active svg {
+  stroke: #fff;
+}
+.ai .chat-input .btn-area .speech-reco select {
+  padding: 10px;
+  border-radius: 30px;
+  border: 0;
+  outline: none;
+  font-size: 18px;
+}
+.ai .chat-input .btn-area .speech-reco select:disabled {
+  cursor: not-allowed;
+}
+.ai .chat-input .btn-area button.send {
+  height: 48px;
+  width: 48px;
+  border-radius: 50%;
+}
+.ai .chat-input .btn-area button.send:disabled {
+  cursor: not-allowed;
+}
+
+@keyframes wobble {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3);
+  }
 }

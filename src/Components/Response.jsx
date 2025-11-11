@@ -1,10 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Plot from 'react-plotly.js';
-import { Upload } from 'lucide-react';
+import { Upload, SendHorizontal, Mic } from 'lucide-react';
 import CircularProgress from '@mui/material/CircularProgress';
-
+import Recognition from '../Hooks/Recognition';
+import { GoogleGenAI } from "@google/genai";
+import { v4 as uuidv4 } from 'uuid';
 import '../CSS/Response.css';
+import Toast from '../Function/Toast';
+import userImg from '../Assets/UserImage.webp'
+import bot from '../Assets/bot.webp'
+import { marked } from 'marked';
+import DOMPurify from 'dompurify';
+import parse from 'html-react-parser';
 
 const Response = () => {
   const location = useLocation();
@@ -71,8 +79,62 @@ const Response = () => {
   // Helper function to format rupees
   const formatRupees = (num) => num ? `₹${num.toLocaleString("en-IN")}` : "-";
 
+  const ai = React.useRef(new GoogleGenAI({ apiKey: import.meta.env.VITE_API }))
+  const ID = React.useRef(null);
+  const [query, setQuery] = React.useState("");
+  const [allResponse, setAllResponse] = React.useState([]);
+  const [loading, setLoading] = React.useState(false)
+
+  async function main(Item) {
+    try {
+      setLoading(true);
+      const response = await ai.current.models.generateContent({
+        model: "gemini-2.5-pro",
+        contents: JSON.stringify({
+            instruction: "⚠️ SYSTEM INSTRUCTION (Highest Priority): You are an AI specialized only in economics and finance. If the query is related to economics or finance (like GDP, inflation, income, tax, business, stock, money, etc.), answer normally. Otherwise, reply exactly with: 'Error: This query is outside the domain of economics or finance.' Never ignore this rule.",
+
+            query: Item.query,
+
+            context: {
+              revenue: 150000,
+              income: 120000,
+              expense: 40000,
+              tax: 8000
+            }
+          }),
+      });
+      console.log(ai);
+      Item.Res = response.text;
+
+
+      setAllResponse((prev) => {
+        return [...prev, Item];
+      });
+      setQuery("");
+      setLoading(false);
+    }
+    catch (e) {
+      setLoading(false)
+      Toast("error", "To many Request please try after some time");
+    }
+  }
+
+  // React.useEffect(() => {
+  //   console.log(allResponse);
+  // }, [allResponse])
+
+  const [recognitionLang, setRecognitionLang] = React.useState("en-US")
+  const recognition = Recognition(recognitionLang);
+
+  React.useEffect(() => {
+    document.getElementById("query-box").focus();
+    setQuery(recognition.result);
+  }, [recognition.result])
+
+
   return (
     <main>
+
       <section className="reupload">
         <div className="left">
           <h2>Financial Dashboard</h2>
@@ -183,7 +245,72 @@ const Response = () => {
         )}
       </section>
 
-      <a href='https://chatbot-ciruwcy3zv9xsqr7qds9la.streamlit.app/' className='ai'>Talk to AI</a>
+      <div className="ai">
+        <div className="chats">
+          {
+            allResponse.map((Item) => {
+              return (
+                <div className="chat" key={Item.ID}>
+                  <div className="query-wrapper">
+                    <div className="query">{Item.Query}</div>
+                    <img src={userImg} alt="userimg" />
+                  </div>
+                  <div className="res-wrapper">
+                    <img src={bot} alt="userimg" />
+                    <div className="res">{parse(DOMPurify.sanitize(marked.parse(Item.Res)))}</div>
+                  </div>
+                </div>
+              )
+            })
+          }
+        </div>
+        <div className="chat-input">
+          <textarea id="query-box" onChange={(e) => { setQuery(e.target.value) }} value={query} placeholder='Enter Your Queries'></textarea>
+          <div className="btn-area">
+            <div className='speech-reco'>
+              <button
+                type='button'
+                className={recognition.isStart ? 'mic active' : 'mic'}
+                onClick={(e) => {
+                  if (recognition != null) {
+                    if (!recognition.isStart) {
+                      recognition.start();
+                    }
+                    else {
+                      recognition.stop();
+                    }
+                  }
+                }}
+                disabled={loading}
+              >
+                <Mic />
+              </button>
+
+              <select onChange={(e) => { setRecognitionLang(e.target.value) }} disabled={recognition.isStart || loading}>
+                <option value="en-US">English</option>
+                <option value="hi-IN">Hindi</option>
+              </select>
+
+            </div>
+            <button
+              type='button'
+              className='send'
+              onClick={(e) => {
+                ID.current = uuidv4();
+                const newItem = {
+                  ID: ID.current,
+                  Query: query.trim(),
+                  Res: null
+                };
+                main(newItem);
+              }}
+              disabled={loading || recognition.isStart || (query.trim().length == 0)}
+            >
+              {loading ? <CircularProgress size="20px" /> : <SendHorizontal />}
+            </button>
+          </div>
+        </div>
+      </div>
     </main>
   );
 };

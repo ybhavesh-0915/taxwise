@@ -29,21 +29,20 @@ const Uploads = () => {
             const response = await fetch("https://web-production-556a5.up.railway.app/process-files", {
                 method: "POST",
                 body: formData,
-                headers: {
-                    "Accept": "application/json",
-                }
-            });
+                headers: {"Accept": "application/json",}
+            }); //vicky
 
             if (response.ok) {
                 const data = await response.json();
-                setData(data)
-                setIsLoading(false)
+                setData(data);
+                setIsLoading(false);
             }
 
         }
         catch (error) {
             Toast("error", "Something Went Wrong")
             setIsLoading(false)
+            setFile(null);
             console.error("Error uploading file:", error);
         }
     };
@@ -51,7 +50,6 @@ const Uploads = () => {
 
     return (
         <div className='upload'>
-            <Toaster />
             <div className="upload-icon">
                 <Upload size={60} color='#93a2b7' />
             </div>

@@ -2,21 +2,23 @@ import React from 'react'
 import Header from './Components/Header'
 import Home from './Components/Home'
 import Response from './Components/Response'
+import { Toaster } from 'react-hot-toast'
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 
 const App = () => {
   let routePath = createBrowserRouter([
     {
       path: "/",
-      element: <Home/>
+      element: <Home />
     },
     {
       path: "/response",
-      element: <Response/>
+      element: <Response />
     }
   ])
   return (
     <>
+      <Toaster />
       <Header />
       <RouterProvider router={routePath} />
     </>
