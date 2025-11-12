@@ -13,6 +13,7 @@ import bot from '../Assets/bot.webp'
 import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 import parse from 'html-react-parser';
+import { encode } from '@toon-format/toon'
 
 const Response = () => {
   const location = useLocation();
@@ -21,37 +22,31 @@ const Response = () => {
 
   // Expense state
   const [expense, setExpense] = useState(null);
-
   useEffect(() => {
     if (!mainData?.expense_analysis?.top_categories) return;
-
     const value = mainData.expense_analysis.top_categories.map(item => item[1]);
     const label = mainData.expense_analysis.top_categories.map(item => item[0]);
-
     setExpense({ values: value, labels: label });
   }, [mainData]);
 
   // Cibil Score state
   const [cibilScoreInfo, setCibilScoreInfo] = useState(0);
-
   const fetchCibilScore = async () => {
     if (!mainData?.session_id) return;
     try {
-      const res = await fetch(`https://web-production-556a5.up.railway.app/analyze-cibil/${mainData.session_id}`);
+      const res = await fetch(`https://cidib-production-2eaa.up.railway.app/analyze-cibil/${mainData.session_id}`);
       const data = await res.json();
       setCibilScoreInfo(data.cibil_score || 0);
     } catch (err) {
       console.error(err);
     }
   };
-
   useEffect(() => {
     fetchCibilScore();
   }, [mainData]);
 
   // Tax Analysis state
   const [taxAnalysisInfo, setTaxAnalysisInfo] = useState(null);
-
   const fetchTaxAnalysis = async () => {
     if (!mainData?.session_id) return;
     try {
@@ -62,14 +57,12 @@ const Response = () => {
       console.error(err);
     }
   };
-
   useEffect(() => {
     fetchTaxAnalysis();
   }, [mainData]);
 
   // Simplified info object for rendering
   const [info, setInfo] = useState({ tax_calculation: null, deduction_optimization: null });
-
   useEffect(() => {
     if (!taxAnalysisInfo) return;
     const { tax_calculation, deduction_optimization } = taxAnalysisInfo;
@@ -84,28 +77,33 @@ const Response = () => {
   const [query, setQuery] = React.useState("");
   const [allResponse, setAllResponse] = React.useState([]);
   const [loading, setLoading] = React.useState(false)
-
   async function main(Item) {
     try {
       setLoading(true);
-      const response = await ai.current.models.generateContent({
-        model: "gemini-2.5-pro",
-        contents: JSON.stringify({
-            instruction: "⚠️ SYSTEM INSTRUCTION (Highest Priority): You are an AI specialized only in economics and finance. If the query is related to economics or finance (like GDP, inflation, income, tax, business, stock, money, etc.), answer normally. Otherwise, reply exactly with: 'Error: This query is outside the domain of economics or finance.' Never ignore this rule.",
+      const toon = encode(
+        {
+          instruction: "⚠️ SYSTEM INSTRUCTION (Highest Priority): You are an AI specialized only in economics and finance. If the query is related to economics or finance(include greeting) (like GDP, inflation, income, tax, business, stock, money, etc.), answer normally. Otherwise, reply exactly with: 'This query is outside the domain of economics or finance.' Never ignore this rule.",
 
-            query: Item.query,
+          query: Item.Query,
 
-            context: {
-              revenue: 150000,
-              income: 120000,
-              expense: 40000,
-              tax: 8000
-            }
-          }),
-      });
-      console.log(ai);
+          context: {
+            revenue: 150000,
+            income: 120000,
+            expense: 40000,
+            tax: 8000,
+            cibil_score: 810
+          }
+        }
+      )
+      console.log(toon);
+      const response = await ai.current.models.generateContent(
+        {
+          model: "gemini-2.5-pro",
+          contents: toon
+        }
+      );
+
       Item.Res = response.text;
-
 
       setAllResponse((prev) => {
         return [...prev, Item];
@@ -126,10 +124,14 @@ const Response = () => {
   const [recognitionLang, setRecognitionLang] = React.useState("en-US")
   const recognition = Recognition(recognitionLang);
 
-  React.useEffect(() => {
-    document.getElementById("query-box").focus();
-    setQuery(recognition.result);
-  }, [recognition.result])
+  if (recognition) {
+    React.useEffect(() => {
+      if (recognition) {
+        document.getElementById("query-box").focus();
+        setQuery(recognition.result);
+      }
+    }, [recognition.result])
+  }
 
 
   return (
@@ -270,23 +272,23 @@ const Response = () => {
             <div className='speech-reco'>
               <button
                 type='button'
-                className={recognition.isStart ? 'mic active' : 'mic'}
+                className={recognition?.isStart ? 'mic active' : 'mic'}
                 onClick={(e) => {
                   if (recognition != null) {
-                    if (!recognition.isStart) {
-                      recognition.start();
+                    if (!recognition?.isStart) {
+                      recognition?.start();
                     }
                     else {
-                      recognition.stop();
+                      recognition?.stop();
                     }
                   }
                 }}
-                disabled={loading}
+                disabled={loading || recognition == null}
               >
                 <Mic />
               </button>
 
-              <select onChange={(e) => { setRecognitionLang(e.target.value) }} disabled={recognition.isStart || loading}>
+              <select onChange={(e) => { setRecognitionLang(e.target.value) }} disabled={recognition?.isStart || loading || recognition == null} value={recognitionLang}>
                 <option value="en-US">English</option>
                 <option value="hi-IN">Hindi</option>
               </select>
@@ -304,7 +306,7 @@ const Response = () => {
                 };
                 main(newItem);
               }}
-              disabled={loading || recognition.isStart || (query.trim().length == 0)}
+              disabled={loading || recognition?.isStart || (query.trim().length == 0)}
             >
               {loading ? <CircularProgress size="20px" /> : <SendHorizontal />}
             </button>

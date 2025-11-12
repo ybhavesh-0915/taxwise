@@ -26,7 +26,7 @@ const Uploads = () => {
 
         try {
             setIsLoading(true)
-            const response = await fetch("https://web-production-556a5.up.railway.app/process-files", {
+            const response = await fetch("https://web-production-e9773.up.railway.app/process-files", {
                 method: "POST",
                 body: formData,
                 headers: {"Accept": "application/json",}

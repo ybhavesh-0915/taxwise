@@ -60,15 +60,14 @@
   margin-bottom: 15px;
   display: flex;
   justify-content: end;
+  align-items: center;
 }
 .ai .chats .chat .query-wrapper .query {
-  padding: 12px;
+  padding: 8px;
   max-width: 70%;
   background-color: rgb(255, 215, 0);
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   border-radius: 15px 5px 15px 15px;
   display: block;
-  direction: ltr;
 }
 .ai .chats .chat .query-wrapper img {
   height: 50px;
@@ -76,7 +75,6 @@
 }
 .ai .chats .chat .res-wrapper {
   display: flex;
-  justify-content: end;
 }
 .ai .chats .chat .res-wrapper img {
   margin-top: 25px;
@@ -85,6 +83,7 @@
 }
 .ai .chats .chat .res-wrapper .res {
   padding: 10px;
+  margin-top: 10px;
 }
 .ai .chats .chat .res-wrapper .res * code:not([class*=language-]) {
   font-family: Consolas, monospace;

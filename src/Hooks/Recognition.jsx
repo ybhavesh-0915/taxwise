@@ -25,6 +25,10 @@ const Recognition = (lang) => {
             if (e.error == "not-allowed") {
                 Toast("error", "User not allowed");
             }
+            else{
+                Toast("error", "Speech recognition error: " + e.error);
+            }
+            stop();
         }
 
         function start() {
