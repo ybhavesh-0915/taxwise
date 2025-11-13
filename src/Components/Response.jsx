@@ -19,6 +19,8 @@ const Response = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const mainData = location.state?.data;
+  const [mySwitch, setMySwitch] = useState(false);
+  // console.log(mainData);
 
   // Expense state
   const [expense, setExpense] = useState(null);
@@ -34,7 +36,7 @@ const Response = () => {
   const fetchCibilScore = async () => {
     if (!mainData?.session_id) return;
     try {
-      const res = await fetch(`https://cidib-production-2eaa.up.railway.app/analyze-cibil/${mainData.session_id}`);
+      const res = await fetch(`https://web-production-e9773.up.railway.app/analyze-cibil/${mainData.session_id}`);
       const data = await res.json();
       setCibilScoreInfo(data.cibil_score || 0);
     } catch (err) {
@@ -50,7 +52,7 @@ const Response = () => {
   const fetchTaxAnalysis = async () => {
     if (!mainData?.session_id) return;
     try {
-      const res = await fetch(`https://web-production-556a5.up.railway.app/analyze-tax/${mainData.session_id}`);
+      const res = await fetch(`https://web-production-e9773.up.railway.app/analyze-tax/${mainData.session_id}`);
       const data = await res.json();
       setTaxAnalysisInfo(data);
     } catch (err) {
@@ -67,9 +69,9 @@ const Response = () => {
     if (!taxAnalysisInfo) return;
     const { tax_calculation, deduction_optimization } = taxAnalysisInfo;
     setInfo({ tax_calculation, deduction_optimization });
+    console.log(info);
   }, [taxAnalysisInfo]);
 
-  // Helper function to format rupees
   const formatRupees = (num) => num ? `₹${num.toLocaleString("en-IN")}` : "-";
 
   const ai = React.useRef(new GoogleGenAI({ apiKey: import.meta.env.VITE_API }))
@@ -77,24 +79,18 @@ const Response = () => {
   const [query, setQuery] = React.useState("");
   const [allResponse, setAllResponse] = React.useState([]);
   const [loading, setLoading] = React.useState(false)
+
+  React.useEffect(() => {
+
+  }, [info])
   async function main(Item) {
     try {
       setLoading(true);
-      const toon = encode(
-        {
-          instruction: "⚠️ SYSTEM INSTRUCTION (Highest Priority): You are an AI specialized only in economics and finance. If the query is related to economics or finance(include greeting) (like GDP, inflation, income, tax, business, stock, money, etc.), answer normally. Otherwise, reply exactly with: 'This query is outside the domain of economics or finance.' Never ignore this rule.",
-
-          query: Item.Query,
-
-          context: {
-            revenue: 150000,
-            income: 120000,
-            expense: 40000,
-            tax: 8000,
-            cibil_score: 810
-          }
-        }
-      )
+      const toon = encode({
+        instruction: "⚠️ SYSTEM INSTRUCTION (Highest Priority): You are an AI specialized only in economics and finance. If the query is related to economics or finance(like GDP, inflation, income, tax, business, stock, money, etc.), answer normally. Never ignore this rule.",
+        query: Item.Query,
+        context: { ...info.tax_calculation, ...expense, cibil_score: cibilScoreInfo }
+      })
       console.log(toon);
       const response = await ai.current.models.generateContent(
         {
@@ -117,10 +113,6 @@ const Response = () => {
     }
   }
 
-  // React.useEffect(() => {
-  //   console.log(allResponse);
-  // }, [allResponse])
-
   const [recognitionLang, setRecognitionLang] = React.useState("en-US")
   const recognition = Recognition(recognitionLang);
 
@@ -133,6 +125,15 @@ const Response = () => {
     }, [recognition.result])
   }
 
+  React.useEffect(() => {
+    let sendBtn = document.getElementById("send-btn");
+    document.addEventListener("keydown", (e) => {
+      if(e.key == "Enter"){
+        e.preventDefault();
+        sendBtn.click();
+      }
+    })
+  }, [])
 
   return (
     <main>
@@ -153,23 +154,50 @@ const Response = () => {
         <div className="graphs">
           {/* Expense Pie Chart */}
           <div className='graph'>
-            <Plot
-              data={[{
-                type: "pie",
-                values: expense?.values || [],
-                labels: expense?.labels || [],
-                textinfo: "label+percent",
-                textposition: "outside",
-                automargin: true
-              }]}
-              layout={{
-                title: 'Expense Categories',
-                height: 400,
-                width: 400,
-                margin: { t: 0, b: 0, l: 0, r: 0 },
-                showlegend: false
-              }}
-            />
+            {mySwitch ?
+              <Plot
+                data={[{
+                  type: "pie",
+                  values: expense?.values || [],
+                  labels: expense?.labels || [],
+                  textinfo: "label+percent",
+                  textposition: "outside",
+                  automargin: true
+                }]}
+                layout={{
+                  title: 'Expense Categories',
+                  height: 500,
+                  width: 500,
+                  // margin: { t: 0, b: 0, l: 0, r: 0 },
+                  showlegend: true
+                }}
+              /> :
+              <Plot
+                data={[
+                  {
+                    x: expense?.labels || [],
+                    y: expense?.values || [],
+                    type: 'bar',
+                    // mode: 'lines+markers',
+                    // marker: { color: 'dodgerblue' },
+                  },
+                  // { type: 'bar', x: [1, 2, 3], y: [2, 5, 3] },
+                ]}
+                layout={{
+                  title: { text: 'Expense Categories' },
+                  width: 500,
+                  height: 500,
+                  // showlegend: true
+                }}
+              />
+
+            }
+            <div className="switch-graph">
+              <span><b>change graph</b></span>
+              <label htmlFor="switch">
+                <input type="checkbox" id="switch" onChange={() => { setMySwitch(!mySwitch) }} checked={mySwitch} />
+              </label>
+            </div>
           </div>
 
           {/* Cibil Score Gauge */}
@@ -200,8 +228,8 @@ const Response = () => {
                 }
               }]}
               layout={{
-                height: 400,
-                width: 400,
+                height: 500,
+                width: 500,
               }}
             />
           </div>
@@ -212,14 +240,15 @@ const Response = () => {
           <CircularProgress size="30px" />
         ) : (
           <div className="tax-info">
+
             <section>
-              <h2>Tax Calculation (New Regime)</h2>
+              <h2>Tax Calculation ({info.tax_calculation?.recommended_regime})</h2>
               <ul>
-                <li>Total Tax: {formatRupees(info.tax_calculation.new_regime?.total_tax)}</li>
+                <li>Total Tax: ₹{(info.tax_calculation.new_regime?.total_tax == 0) ? 0 : info.tax_calculation.new_regime?.total_tax}</li>
                 <li>Effective Tax Rate: {info.tax_calculation.new_regime?.effective_tax_rate}%</li>
-                <li>Taxable Income: {formatRupees(info.tax_calculation.new_regime?.taxable_income)}</li>
-                <li>Recommended Regime: {info.tax_calculation.new_regime?.recommended_regime}</li>
-                <li>Annual Savings Compared to Old Regime: {formatRupees(info.tax_calculation.new_regime?.savings)}</li>
+                <li>Taxable Income: ₹{info.tax_calculation.new_regime?.taxable_income}</li>
+                <li>Recommended Regime: <strong><b>{info.tax_calculation?.recommended_regime}</b></strong></li>
+                <li>Annual Savings Compared to Old Regime: ₹{info.tax_calculation?.savings}</li>
               </ul>
             </section>
 
@@ -240,7 +269,7 @@ const Response = () => {
                     <p><em>{suggestion.reasoning}</em></p>
                   </li>
                 ))}
-                <li>Total Potential Savings: {formatRupees(info.deduction_optimization?.total_potential_savings)}</li>
+                <li>Total Potential Savings: ₹{info.deduction_optimization?.total_potential_savings}</li>
               </ul>
             </section>
           </div>
@@ -259,7 +288,17 @@ const Response = () => {
                   </div>
                   <div className="res-wrapper">
                     <img src={bot} alt="userimg" />
-                    <div className="res">{parse(DOMPurify.sanitize(marked.parse(Item.Res)))}</div>
+                    <div className="res">{parse(
+                      DOMPurify.sanitize(marked.parse(Item.Res)), {
+                      transform(reactNode) {
+                        if (reactNode.type == "table") {
+                          return <div className='table-wrapper'>{reactNode}</div>;
+                        }
+                        else {
+                          return reactNode;
+                        }
+                      },
+                    })}</div>
                   </div>
                 </div>
               )
@@ -296,6 +335,7 @@ const Response = () => {
             </div>
             <button
               type='button'
+              id='send-btn'
               className='send'
               onClick={(e) => {
                 ID.current = uuidv4();

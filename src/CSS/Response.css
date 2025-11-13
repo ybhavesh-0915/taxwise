@@ -30,20 +30,57 @@
 }
 .data-display .graphs .graph {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
   width: calc(50% - 10px);
   border: 1px dashed #93a2b7;
   border-radius: 5px;
 }
-.data-display .tax-info {
+.data-display .graphs .graph .switch-graph {
+  width: 100%;
   padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.data-display .graphs .graph .switch-graph label {
+  width: 50px;
+  border: 1px dashed #93a2b7;
+  display: flex;
+  align-items: center;
+  padding: 2px;
+  cursor: pointer;
+  border-radius: 15px;
+}
+.data-display .graphs .graph .switch-graph label:has(input[type=checkbox]:checked) {
+  border-style: solid !important;
+  border-color: #ffd700;
+}
+.data-display .graphs .graph .switch-graph label input[type=checkbox] {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  background-color: #13375e;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+.data-display .graphs .graph .switch-graph label input[type=checkbox]:checked {
+  transform: translateX(25px);
+  background-color: #ffd700;
+}
+.data-display .tax-info {
+  padding: 15px;
   margin-top: 20px;
   border: 1px dashed #93a2b7;
   border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 .data-display .tax-info ul {
-  margin-left: 20px;
+  margin-left: 30px;
 }
 
 .ai {
@@ -84,11 +121,12 @@
 .ai .chats .chat .res-wrapper .res {
   padding: 10px;
   margin-top: 10px;
+  overflow: auto;
 }
 .ai .chats .chat .res-wrapper .res * code:not([class*=language-]) {
   font-family: Consolas, monospace;
   font-family: Consolas, monospace !important;
-  background-color: #efefef;
+  background-color: #eaebed;
   padding-inline: 8px;
   border-radius: 20px;
   word-wrap: break-word;
@@ -118,7 +156,7 @@
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  background-color: #efefef;
+  background-color: #eaebed;
   padding-inline: 5px;
   border-radius: 20px;
 }
@@ -261,8 +299,8 @@
 }
 .ai .chats .chat .res-wrapper .res .table-wrapper {
   margin-block: 10px;
-  background-color: #171717;
-  border: 2px solid #303030;
+  background-color: #fff;
+  border: 2px solid #eaebed;
   border-radius: 8px;
   overflow: auto;
   scrollbar-width: thin;
@@ -275,14 +313,14 @@
 }
 .ai .chats .chat .res-wrapper .res .table-wrapper table thead tr th {
   padding: 10px;
-  border-bottom: 2px solid #303030;
+  border-bottom: 2px solid #eaebed;
   text-align: center;
   text-align: left;
   min-width: 230px;
 }
 @media (min-width: 768px) {
   .ai .chats .chat .res-wrapper .res .table-wrapper table thead tr th:first-child {
-    background-color: #171717;
+    background-color: #fff;
     position: sticky;
     left: 0;
   }
@@ -291,12 +329,12 @@
   padding: 8px;
   text-align: center;
   text-align: left;
-  border-bottom: 2px solid #303030;
+  border-bottom: 2px solid #eaebed;
   min-width: 230px;
 }
 @media (min-width: 768px) {
   .ai .chats .chat .res-wrapper .res .table-wrapper table tbody tr td:first-child {
-    background-color: #171717;
+    background-color: #fff;
     position: sticky;
     left: 0;
   }
@@ -308,14 +346,14 @@
   display: block;
   width: 100%;
   height: 3px;
-  background-color: #efefef;
+  background-color: #eaebed;
   border-radius: 5px;
   margin-block: 25px !important;
   border: 0;
 }
 .ai .chats .chat .res-wrapper .res .code-wrapper {
   margin-bottom: 10px;
-  background-color: #efefef;
+  background-color: #eaebed;
   border-radius: 5px;
   overflow: auto;
   position: relative;
@@ -337,7 +375,7 @@
   margin: 0 !important;
 }
 .ai .chats .chat .res-wrapper .res .code-wrapper pre:has(code) code {
-  background-color: #efefef !important;
+  background-color: #eaebed !important;
 }
 .ai .chats .chat .res-wrapper .res .code-wrapper pre code {
   display: block;
@@ -363,7 +401,7 @@
   width: 4px;
   height: 100%;
   border-radius: 5px;
-  background-color: #efefef;
+  background-color: #eaebed;
 }
 .ai .chats .chat .res-wrapper .res blockquote * {
   margin: 0 !important;

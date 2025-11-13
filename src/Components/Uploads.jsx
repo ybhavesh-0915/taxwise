@@ -37,13 +37,16 @@ const Uploads = () => {
                 setData(data);
                 setIsLoading(false);
             }
+            else{
+                throw new Error("something went wrong")
+            }
 
         }
-        catch (error) {
+        catch(error) {
             Toast("error", "Something Went Wrong")
             setIsLoading(false)
             setFile(null);
-            console.error("Error uploading file:", error);
+            console.log(error);
         }
     };
 
